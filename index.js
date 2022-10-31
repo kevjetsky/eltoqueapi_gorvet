@@ -8,43 +8,60 @@ const port=process.env.PORT || 3001;
 
 let currency=[];
 let price = [];
+ 
+var salidaJson; 
 
-app.use(bodyParser.urlencoded({extended:false}));
-app.use(bodyParser.json());
+//reviso el toque, el tiemo de lectura del eltoque esta por los 6segundos,
 
-app.get('/cambio',(req,res)=>{res.send({message: 'hola mundo!'})
-})
-/* app.listen(3001, ()=>{
-    console.log('listo');
-}); */
+ setInterval(leoEltoque, 2000);//probando cada 20s
+ 
+
+function leoEltoque() {
+  console.log("Ha pasado 20s");
   request("https://eltoque.com", (err, res, body) => {
-  if (!err && res.statusCode == 200) {
+  if (!err && res.statusCode == 200) {//extraigo la pagina si puede leerla
     let $ = cheerio.load(body);
      
-    $('span.currency' , 'table.hmQVUs').each(function() {
+    $('span.currency' , 'table.hmQVUs').each(function() {//saco los span q tienen el texto de la moneda y lo limpio
        var moneda = $(this).text();
        moneda=(moneda.replace('1 ', ''));
        currency.push(moneda);
     });
-    $('span.price-text' , 'table.hmQVUs').each(function() {
+    $('span.price-text' , 'table.hmQVUs').each(function() {//saco los span q tienen el texto del valor respecto al cup  y lo limpio
         var precio = $(this).text();
         precio=(precio.replace(' CUP', ''));
         price.push(precio);
      });
+     
   
 
    
   }
-
- 
- 
-  const salida= pushArraysToData(currency, price);
+  const salida= pushArraysToData(currency, price);// armo mi array de salida
   console.log(salida);
-  fs.writeFile('cambio.json', JSON.stringify(salida),'utf8', (err) => { 
+  salidaJson = JSON.stringify(salida);
+/*   fs.writeFile('cambio.json', JSON.stringify(salida),'utf8', (err) => { //actualizo el archivo json con el array de salida
     if (err) throw err; 
-    console.log('The file has been saved!'); 
-  });
+    console.log('cambio.json ha sido actualizado'); 
+  }); */
 });
+}// fin temporizador
+
+
+
+app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.json());
+
+app.get('/cambio',(req,res)=>{res.send({message: salidaJson})
+})
+
+
+  app.listen(3001, ()=>{
+    console.log('listo');
+});  
+
+
+  
   
  
 
