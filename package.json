@@ -1,14 +1,13 @@
 {
   "name": "tqs",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.0.1",
   "main": "index.js",
   "type": "module",
   "scripts": {
     "dev": "nodemon node src/index.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Juank Gorvet",
   "license": "ISC",
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
@@ -17,5 +16,15 @@
     "request": "^2.88.2",
     "request-promise": "^4.2.6",
     "xpress": "^2.4.6"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kevjetsky/eltoqueapi_gorvet.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kevjetsky/eltoqueapi_gorvet/issues"
+  },
+  "homepage": "https://github.com/kevjetsky/eltoqueapi_gorvet#readme",
+  "description": ""
 }
